@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm cache *)",
+      "Bash(kill %1)",
+      "Bash(npm run *)",
+      "Bash(curl -s -X POST http://localhost:3001/api/ai/flashcards -H 'Content-Type: application/json' -d '{\"topic\": \"dopamine\", \"domain\": \"neuroscience\"}')"
+    ]
+  }
+}

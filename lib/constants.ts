@@ -1,0 +1,77 @@
+import type { Domain } from '@/types'
+
+export const APP_NAME = 'Nexus Science'
+export const APP_TAGLINE = 'Where science meets curiosity.'
+
+export const DOMAINS: Domain[] = [
+  {
+    id: 'neuroscience',
+    name: 'Neuroscience',
+    accent: 'violet',
+    accentHex: '#8b5cf6',
+    icon: 'Brain',
+    topics: ['Memory', 'Consciousness', 'Dopamine', 'Plasticity'],
+    href: '/learn/neuroscience',
+    description: 'Explore the science of the mind, from neurons to behavior.',
+  },
+  {
+    id: 'medicine',
+    name: 'Medicine',
+    accent: 'rose',
+    accentHex: '#f43f5e',
+    icon: 'Stethoscope',
+    topics: ['Pharmacology', 'Disease', 'Treatment', 'Research'],
+    href: '/learn/medicine',
+    description: 'From drug mechanisms to disease pathways.',
+  },
+  {
+    id: 'ai-cs',
+    name: 'AI & Computer Science',
+    accent: 'cyan',
+    accentHex: '#00d4ff',
+    icon: 'Cpu',
+    topics: ['Machine Learning', 'LLMs', 'Algorithms', 'Ethics'],
+    href: '/learn/ai-cs',
+    description: 'Understand intelligence — artificial and otherwise.',
+  },
+  {
+    id: 'physics',
+    name: 'Physics',
+    accent: 'amber',
+    accentHex: '#f59e0b',
+    icon: 'Atom',
+    topics: ['Quantum', 'Relativity', 'Space', 'Materials'],
+    href: '/learn/physics',
+    description: 'The fundamental laws that govern reality.',
+  },
+  {
+    id: 'biology',
+    name: 'Biology',
+    accent: 'emerald',
+    accentHex: '#10b981',
+    icon: 'Dna',
+    topics: ['Genetics', 'Evolution', 'Cells', 'Biotech'],
+    href: '/learn/biology',
+    description: 'Life in all its molecular and ecological complexity.',
+  },
+  {
+    id: 'chemistry',
+    name: 'Chemistry',
+    accent: 'rose',
+    accentHex: '#f43f5e',
+    icon: 'FlaskConical',
+    topics: ['Molecules', 'Reactions', 'Biochemistry'],
+    href: '/learn/chemistry',
+    description: 'The language atoms use to build our world.',
+  },
+  {
+    id: 'history',
+    name: 'History of Science',
+    accent: 'amber',
+    accentHex: '#f59e0b',
+    icon: 'BookOpen',
+    topics: ['Discoveries', 'Scientists', 'Revolutions'],
+    href: '/learn/history',
+    description: 'How humanity learned to understand the universe.',
+  },
+]

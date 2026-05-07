@@ -1,0 +1,121 @@
+---
+title: "What Large Language Models Actually Do"
+slug: "what-llms-actually-do"
+domain: "AI & Computer Science"
+domainId: "ai-cs"
+accentHex: "#00d4ff"
+excerpt: "LLMs predict the next token. That sounds trivial — but the gap between that description and what they actually produce is where all the interesting questions live."
+author: "Igor Stashok"
+publishedAt: "2026-05-05"
+readingTime: 10
+tags: ["AI", "LLMs", "machine learning", "transformers", "language models"]
+---
+
+## One Sentence That Changes Everything
+
+Here is what a large language model does:
+
+*It predicts the next token.*
+
+That's it. That's the whole mechanism at the lowest level. You give it a sequence of tokens — roughly, word pieces — and it outputs a probability distribution over what comes next. You sample from that distribution, add the new token to the sequence, and repeat.
+
+If this sounds too simple to explain GPT-4 or Claude, that's the right reaction. The gap between "predicts the next token" and "writes better code than most junior developers" is where all the interesting science lives.
+
+## What Is a Token?
+
+A *token* is not exactly a word. It's a subword unit — a chunk of text that appears frequently enough in the training data to be given its own slot in the model's vocabulary.
+
+The word "learning" might be one token. "Unbelievable" might be split into "Un", "bel", and "ievable". Code, mathematical notation, and rare words get fragmented into smaller pieces. Most large models have vocabularies of 50,000–100,000 tokens.
+
+This matters because the model doesn't see text the way you do. It sees a sequence of integer IDs — numbers that represent these subword chunks. Everything you and the model share is this compressed, tokenized form of language.
+
+## How Training Works
+
+A language model learns by reading enormous amounts of text — trillions of tokens drawn from books, websites, code repositories, scientific papers, and more.
+
+During training, the model is shown a sequence of tokens and asked to predict the next one. It makes a prediction. It checks whether it was correct. It adjusts its internal parameters to do slightly better next time. This process repeats billions of times.
+
+The parameters being adjusted are the *weights* of the neural network — billions of floating-point numbers that encode the model's learned understanding of patterns in language. GPT-3 has 175 billion parameters. Modern frontier models have even more.
+
+After this pretraining phase, models go through *fine-tuning*. The most important method is **RLHF** — Reinforcement Learning from Human Feedback:
+
+1. The model generates multiple responses to the same prompt
+2. Human raters rank them from best to worst
+3. A separate "reward model" is trained to predict those rankings
+4. The language model is then trained to generate responses that score highly on the reward model
+
+This is how "predicts text from the internet" becomes "helpful, harmless assistant."
+
+## The Transformer Architecture
+
+The dominant architecture behind every major LLM is the *Transformer*, introduced by Google in 2017 in a paper called "Attention Is All You Need."
+
+The key innovation is the **attention mechanism**.
+
+When processing a sequence of tokens, the model needs to figure out which earlier tokens are relevant to predicting the next one. In the sentence "The cat sat on the mat because it was tired," the model needs to know that "it" refers to "the cat" and not "the mat." This connection spans multiple tokens.
+
+Attention lets every token assign relevance scores to every other token and attend to the most relevant ones. The model doesn't process text left-to-right in a chain — it considers all positions simultaneously, weighting them by how relevant they are.
+
+Modern LLMs stack many layers of this attention mechanism — sometimes over 100 layers deep. Early layers detect grammatical patterns and word relationships. Later layers represent abstract concepts, facts, and what looks like reasoning.
+
+## The Scaling Laws Discovery
+
+One of the most important empirical findings in recent AI research: **making models bigger and training them on more data makes them better in highly predictable ways**.
+
+This doesn't seem surprising until you understand how consistent it is. Researchers at OpenAI found that you can write precise equations predicting how much better a model will perform given more parameters and more training tokens. The relationship is clean, log-linear, and has held across orders of magnitude.
+
+This gave the field a roadmap. Instead of inventing new architectures every year, labs could scale up — more compute, more data, more parameters. And it kept working, further than anyone expected.
+
+## What Emerges at Scale
+
+Here is where things become genuinely strange.
+
+As models get larger, they develop capabilities that no one explicitly trained them for. These are called *emergent capabilities*.
+
+Small models cannot reliably do multi-step arithmetic. At a certain scale threshold, they can. Small models cannot write working code. Past a threshold, they can — not because anyone specifically trained "code writing," but because code appeared in the training data and the model learned its structure by learning to predict it.
+
+Researchers have documented dozens of these transitions, where a capability essentially jumps from near-zero to functional as model size crosses a critical point.
+
+Why does this happen? The honest answer is we don't fully know. The leading theory is that complex tasks require first solving many simpler sub-tasks. Each sub-task needs enough model capacity to be learned reliably. Once the model is large enough to handle all sub-tasks simultaneously, the complex task suddenly becomes accessible.
+
+## Do LLMs "Understand" Language?
+
+This is the question philosophers, linguists, and AI researchers debate most.
+
+The optimist view: these models have learned rich internal representations of meaning, relationships between concepts, logical structure, and world knowledge. If that's not some form of understanding, what is?
+
+The skeptic view: the model is a very sophisticated pattern matcher. It learned what words typically follow other words across an astronomical sample of human writing. It has no internal model of the world, no intentions, no beliefs.
+
+A more careful view: the question might be malformed. "Understanding" is a concept we developed to describe humans. Whether LLMs have something structurally analogous — functional representations that support generalization and flexible reasoning — is an empirical question still being studied.
+
+What we can say clearly: these models do not work like human cognition. They have no persistent memory between conversations (unless given external tools). They cannot update their knowledge after training. They perform better on tasks well-represented in their training data and struggle with tasks requiring genuinely novel reasoning.
+
+## Why Do They Hallucinate?
+
+A "hallucination" is when a model confidently states something false.
+
+The mechanism makes sense once you understand the training objective. The model was trained to produce *plausible-sounding* text, not *verifiably true* text. Plausibility and truth overlap enormously — most true things sound plausible. But they diverge in edge cases.
+
+When asked about something rare or obscure, the model generates text that *looks like* what a correct answer would look like, based on learned patterns. If it never saw enough correct information about a specific topic, it generates something plausible-but-wrong.
+
+Modern techniques reduce this problem. Fine-tuning on high-quality factual data helps. Training models to express uncertainty helps. Retrieval-augmented generation — giving the model access to a database it can query before answering — helps significantly.
+
+But hallucination remains a fundamental challenge as long as the model is rewarded for sounding good rather than being verifiably correct.
+
+## What They're Actually Good At
+
+Given everything above, here's an honest assessment:
+
+**Strong:** Writing, editing, explaining concepts, translating between languages, generating and debugging code, summarizing documents, answering common questions, brainstorming, recognizing patterns, parsing complex instructions.
+
+**Weak:** Precise numerical computation, information about events after training cutoff, tasks requiring genuine novelty with no analogues in training data, tasks requiring verifiable precision about obscure topics.
+
+**Unpredictable:** Complex multi-step reasoning, tasks that seem simple but have subtle requirements, anything at the edge of the training distribution.
+
+## The Real Surprise
+
+The genuinely surprising thing is not that these systems are capable. It's that the path to this level of capability turned out to be: take the simplest possible learning objective — predict the next token — apply it to enough data with enough compute, and sophisticated behavior emerges.
+
+No one designed the model to understand grammar. It learned grammar because grammar helps predict text. No one designed it to represent facts about the world. It learned facts because facts structure language. No one designed it to reason. It learned something that behaves a lot like reasoning because reasoning patterns appear constantly in human writing.
+
+The architecture is elegant. The training is, in some sense, brute force. The result is something genuinely new — and we're still developing the tools to understand what it actually is.

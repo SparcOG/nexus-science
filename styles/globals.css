@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design System Variables ─────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #111118;
+  --bg-surface: #1a1a24;
+  --bg-border: #2a2a38;
+
+  /* Text */
+  --text-primary: #e8e8f0;
+  --text-secondary: #8888a8;
+  --text-accent: #a0a0c8;
+
+  /* Brand Accents */
+  --accent-cyan: #00d4ff;
+  --accent-violet: #8b5cf6;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+
+  /* Radius */
+  --radius: 8px;
+  --radius-lg: 16px;
+}
+
+/* ─── Base Reset ───────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--accent-violet);
+    color: #ffffff;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--bg-border);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+  }
+}
+
+/* ─── Domain Card Hover Effect ─────────────────────────────────────────── */
+@layer components {
+  .domain-card {
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .domain-card:hover {
+    border-color: var(--domain-accent, var(--bg-border));
+    box-shadow: 0 0 24px color-mix(in srgb, var(--domain-accent, transparent) 15%, transparent);
+  }
+
+  /* ─── Article Card Hover Effect ─────────────────────────────────────── */
+  .article-card:hover {
+    box-shadow: -4px 0 12px color-mix(in srgb, var(--article-accent, transparent) 20%, transparent);
+  }
+
+  /* ─── Flashcard 3D Flip ──────────────────────────────────────────────── */
+
+  /* Outer wrapper — sets perspective for 3D space */
+  .card-flip {
+    perspective: 1200px;
+    cursor: pointer;
+  }
+
+  /* Inner wrapper — the element that actually rotates */
+  .card-inner {
+    display: grid;          /* stack both faces in same grid cell */
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  /* Both faces share grid cell 1/1 and hide their back side */
+  .card-face {
+    grid-row: 1;
+    grid-column: 1;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Back face starts pre-rotated 180° so it shows when inner rotates */
+  .card-back-face {
+    transform: rotateY(180deg);
+  }
+}
