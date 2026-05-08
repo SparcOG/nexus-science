@@ -346,7 +346,7 @@ When I say: "fix this" + paste error — fix it, explain root cause in 1 sentenc
 
 - English level: B1 — explain technical terms simply on first use
 - Self-taught developer — explain WHY, not just HOW
-- Building from Belarus — Vercel + GitHub workflow works fine
+- Building from Ukraine — Vercel + GitHub workflow works fine
 - This connects to Lexiq (vocabulary app) — future integration possible
 - Goal: build something real, ship it, grow it
 
